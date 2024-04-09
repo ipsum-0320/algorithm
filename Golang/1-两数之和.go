@@ -1,3 +1,5 @@
+package algorithm
+
 func twoSum(nums []int, target int) []int {
 	hashTable := map[int]int{}
 	for i, x := range nums {

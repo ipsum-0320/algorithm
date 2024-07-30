@@ -3,7 +3,7 @@
 # 一个数据库表只能有一个主键，不允许两个主键。但是允许两个字段联合起来设置为主键，这叫联合主键。
 
 # 进行问题的拆解。
-#
+# if(条件，true值，false值) 表示如果条件成立就取 true 值，不成立就取 false 值。
 select a.user_id, round(sum(if(b.action = 'confirmed',1,0)) / count(*),2) as confirmation_rate
 from Signups a
          left join Confirmations b

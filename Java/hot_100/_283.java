@@ -1,4 +1,4 @@
-package Java;
+package Java.hot_100;
 
 public class _283 {
     // 双指针，我的解法，需要考虑很多 corner case。

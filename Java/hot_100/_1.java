@@ -14,7 +14,7 @@ public class _1 {
         for (int i = 0; i < nums.length; i++) {
             if (map.containsKey(target - nums[i])) {
                 // map 判断是否包含 key 使用 containsKey。
-                return new int[]{i, (int) map.get(target - nums[i])};
+                return new int[]{i, map.get(target - nums[i])};
             } else {
                 map.put(nums[i], i);
                 // map 添加 k v，使用 put。

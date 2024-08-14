@@ -70,7 +70,7 @@ This is my ropo for algorithm Solutions.
 
 11. 排序链表（归并排序，递归，需要合并两个有序链表子方法；迭代也可以完成，主要依靠 subLength，此处不使用该方法）。
 
-12. LRU 缓存（）。
+12. **LRU 缓存**（Map + 双向链表）。
 
 # Max300 分类
 

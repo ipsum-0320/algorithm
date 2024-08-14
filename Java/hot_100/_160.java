@@ -1,15 +1,5 @@
 package Java.hot_100;
 
-class ListNode {
-    int val;
-    ListNode next;
-    ListNode(int x) {
-      val = x;
-      next = null;
-    }
-
-}
-
 public class _160 {
 
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {

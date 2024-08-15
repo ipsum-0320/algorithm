@@ -70,7 +70,12 @@ This is my ropo for algorithm Solutions.
 
 11. 排序链表（归并排序，递归，需要合并两个有序链表子方法；迭代也可以完成，主要依靠 subLength，此处不使用该方法）。
 
-12. **LRU 缓存**（Map + 双向链表）。
+12. **LRU 缓存**（Map + 双向链表，注意事项：capacity、map、dummy、tail，注意 next 是否为 null 的情况，从而更新 tail）。
+
+## 8.二叉树
+
+1. 二叉树的中序遍历（递归；迭代，显示维护一个栈，双 while 循环 -> 中序遍历始终先跑完左节点）。
+2. 二叉树的最大深度（递归，左右子树的最大深度 + 1）。
 
 # Max300 分类
 

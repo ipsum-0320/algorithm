@@ -136,12 +136,60 @@ This is my ropo for algorithm Solutions.
 1. 电话号码的字母组合（递归，回溯模板解法，不要在循环内使用 String += String，直接使用 StringBuilder 就可）。
 1. 组合总和（递归，先排序做好剪枝，从 index 开始，防止回头式搜素导致组合重复，由于可以元素重复，递归时 index 传入 i）。
 1. 括号生成（递归，选取左括号 or 选取右括号，做好剪枝 left <= right，终止条件是左右括号数均为 0）。
-1. 单词搜索（递归，本质上仍然回溯模板解法【注意，BFS 本身做不到回溯】，注意终止条件）。
+1. 单词搜索（递归，非回溯模板解法，但仍然是回溯，需要在回溯过程中适时终止【注意，BFS 本身做不到回溯】）。
 1. 分割回文串（递归，回溯模板解法，需要提取一个判断是否回文串的子函数）。
 
+## 11.二分查找
 
+这里给一个二分查找的板子解法：
 
+```java
+public int search(int[] nums, int target) {
+      if (nums.length == 0) return -1;
+      int start = 0, end = nums.length - 1;
 
+      while (start + 1 < end) {
+          int mid = start + (end - start) / 2;
+          if (target == nums[mid]) return mid;
+          else if (target > nums[mid]) start = mid;
+          else end = mid;
+      }
+
+      if (nums[start] == target) return start;
+      if (nums[end] == target) return end;
+      return -1;
+  }
+```
+
+四点关键理解：
+
+* start + 1 < end：
+
+> start < end 代表 start 和 end 相遇就破坏循环，start <= end 代表 start 和 end 跨过去才破坏循环，而最后我们选取的 start + 1 < end 则表示 start 恰巧在 end 前面的时候（即相邻的时候）就破坏循环。
+>
+> 这样做的好处是永远也不会死循环（而 start <= | < end 是可能会死循环的，因为 mid 取了 start 或者 end），**当这个循环还在执行的时候，即 start 和 end 之间还有数字的时候，mid 的取值一定不会是 start 或者 end**。
+>
+> 在这种情况下，当 while 循环被破坏掉的时候，start 和 end 只会有两种情况 =>
+>
+> * start === end，只有可能出现在一开始 start 就和 end 相等的情况下。
+> * start + 1 === end。
+
+* start + (end - start) / 2：
+
+> 传统的做法是 (start + end) / 2，相较于 start + (end - start) / 2，后者能够防止数字的溢出错误。
+
+* start = mid 和 end = mid：
+
+> 传统的做法是 start = mid + 1 和 end = mid - 1，为什么这里不需要 +1 和 -1 呢？我们需要承认的是，这个地方是可以 +1/-1 的（找等于 target 的题目时），但是不进行 +1/-1 会使模板的**普适性**更强一些。
+>
+> 事实上，很多题目在 start = mid 处是不能够 +1 的，比如我们不是找和  target 相等的位置，而是去找第一个比 target 小的数，此时就不能去 +1 或者 -1 了。
+
+* **nums[start] : nums[end] ? target**：
+
+> 在循环被破坏之后，最终的结果就只有可能位于 nums[start] 和 nums[end] 这两个数之间了，我们只需要挨个去判断即可。
+
+1. 搜索插入位置（二分查找，插入最后一个比 target 小的元素后面，因此当 target == nums[mid] 时，还应当让继续向左搜索，注意最后两个元素的处理）。
+2. 搜索二维矩阵（二分查找，直接化二维为一维即可）。
 
 
 

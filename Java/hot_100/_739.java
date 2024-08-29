@@ -31,4 +31,20 @@ public class _739 {
         return res;
     }
 
+    public int[] dailyTemperatures_2(int[] temperatures) {
+        // 单调栈。
+        Stack<Integer> stack = new Stack<>();
+        int [] res = new int[temperatures.length];
+        // 默认 res[i] == 0。
+
+        for (int i = 0; i < temperatures.length; i++) {
+            while (!stack.isEmpty() && temperatures[i] > temperatures[stack.peek()]) {
+                int index = stack.pop();
+                res[index] = i - index;
+            }
+            stack.push(i);
+        }
+        return res;
+    }
+
 }

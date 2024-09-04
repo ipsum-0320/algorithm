@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class _1 {
-    public static void main(String[] args) {
-
-    }
 
     public int[] twoSum(int[] nums, int target) {
         // 1. Map 是一个泛型，记着添加泛型相关的。

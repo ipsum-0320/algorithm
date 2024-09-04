@@ -207,15 +207,9 @@ public int search(int[] nums, int target) {
 ## 13.堆（数组中第 k 个最大元素）
 
 1. 数组中第 k 个最大元素（使用最大堆，可使用 Java PriorityQueue，但是也可以**自建最大堆**，自建堆使用数组）。
-1. 
+1. 前 k 个高频元素（使用最大堆，借助 Map 统计每一个 nums[i] 出现的次数，然后使用出现次数建立最大堆，`PriorityQueue` 可以传入比较函数）。
 
-
-
-
-
-
-
-
+## 14.
 
 
 

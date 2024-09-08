@@ -3,9 +3,7 @@ package Java.hot_100;
 import java.util.*;
 
 public class _49 {
-    public static void main(String[] args) {
 
-    }
     // 排序方法。
     public List<List<String>> groupAnagrams(String[] strs) {
         // Java 值传递：https://segmentfault.com/a/1190000021529503。

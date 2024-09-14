@@ -14,7 +14,7 @@ public class _287 {
             slow = nums[slow];
             fast = nums[nums[fast]];
         }
-        // 相遇之后，将快指针遇到到起点，一次走一步。
+        // 相遇之后，将快指针回到起点，一次走一步。
         int pre1 = 0;
         int pre2 = slow;
         while(pre1 != pre2){

@@ -1,6 +1,6 @@
-package Java.everyday;
+package Java.classic;
 
-public class _912 {
+public class _912_sort {
     public int[] sortArray(int[] nums) {
         // 快速排序。
         // 首先进行乱序。

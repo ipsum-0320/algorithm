@@ -57,42 +57,42 @@ public class _438 {
     }
 
     // 记录 differ 值。
-    public List<Integer> findAnagrams_3(String s, String p) {
-        if (s.length() < p.length()) return new ArrayList<>();
-        int left = 0, right = p.length() - 1;
-        int[] count = new int[26];
-        // 默认相应的值为 0。
-        for (int i = 0; i < p.length(); i++) {
-            count[s.charAt(i) - 'a']++;
-            count[p.charAt(i) - 'a']--;
-            // p 是维持平衡的那一个。
-        }
-        int differ = 0;
-        for (int c : count) {
-            if (c != 0) differ++;
-        }
-
-        List<Integer> list = new ArrayList<>();
-        while (right < s.length()) {
-            if (differ == 0) {
-                list.add(left);
-            }
-            if (count[s.charAt(left) - 'a'] == 1) {
-                --differ;
-            } else if (count[s.charAt(left) - 'a'] == 0) {
-                ++differ;
-            }
-            --count[s.charAt(left) - 'a'];
-            left++;
-            right++;
-            if (right >= s.length()) break;
-            if (count[s.charAt(right) - 'a'] == -1) {
-                --differ;
-            } else if (count[s.charAt(right) - 'a'] == 0) {
-                ++differ;
-            }
-            ++count[s.charAt(right) - 'a'];
-        }
-        return list;
-    }
+//    public List<Integer> findAnagrams_3(String s, String p) {
+//        if (s.length() < p.length()) return new ArrayList<>();
+//        int left = 0, right = p.length() - 1;
+//        int[] count = new int[26];
+//        // 默认相应的值为 0。
+//        for (int i = 0; i < p.length(); i++) {
+//            count[s.charAt(i) - 'a']++;
+//            count[p.charAt(i) - 'a']--;
+//            // p 是维持平衡的那一个。
+//        }
+//        int differ = 0;
+//        for (int c : count) {
+//            if (c != 0) differ++;
+//        }
+//
+//        List<Integer> list = new ArrayList<>();
+//        while (right < s.length()) {
+//            if (differ == 0) {
+//                list.add(left);
+//            }
+//            if (count[s.charAt(left) - 'a'] == 1) {
+//                --differ;
+//            } else if (count[s.charAt(left) - 'a'] == 0) {
+//                ++differ;
+//            }
+//            --count[s.charAt(left) - 'a'];
+//            left++;
+//            right++;
+//            if (right >= s.length()) break;
+//            if (count[s.charAt(right) - 'a'] == -1) {
+//                --differ;
+//            } else if (count[s.charAt(right) - 'a'] == 0) {
+//                ++differ;
+//            }
+//            ++count[s.charAt(right) - 'a'];
+//        }
+//        return list;
+//    }
 }

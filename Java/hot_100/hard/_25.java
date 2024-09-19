@@ -2,36 +2,41 @@ package Java.hot_100.hard;
 
 public class _25 {
     public ListNode reverseKGroup(ListNode head, int k) {
-        ListNode dummy = new ListNode(0), pre = dummy, cur = head;
-        pre.next = cur;
-        while (cur != null) {
-            ListNode curH = cur, curT = null;
-            for (int i = 0; i < k; i++) {
-                if (curH == null) return dummy.next;
-                curT = curH;
-                curH = curH.next;
+        // pre head ... tail next
+        ListNode dummy = new ListNode(0), pre = dummy;
+        pre.next = head;
+        int length = 0;
+        while (head != null) {
+            head = head.next;
+            length++;
+        }
+
+        while (length >= k) {
+            ListNode start = pre.next;
+            for (int i = 1; i < k; i++) {
+                // start 已经算是第一个了，所以需要从 i = 1 开始。
+                start = start.next;
             }
-            ListNode next = curT.next;
-            ListNode[] reverse = myReverse(cur, curT);
-            ListNode newH = reverse[0], newT = reverse[1];
-            pre.next = newH;
-            newT.next = next;
-            cur = next;
-            pre = newT;
+            ListNode tail = start;
+            ListNode next = tail.next;
+            start = pre.next;
+            tail.next = null;
+            reverse(start);
+            pre.next = tail;
+            start.next = next;
+            pre = start;
+            length -= k;
         }
         return dummy.next;
     }
 
-    public ListNode[] myReverse(ListNode head, ListNode tail) {
+    public void reverse(ListNode head) {
         ListNode pre = null;
-        ListNode cur = head;
-        while (pre != tail) {
-            ListNode next = cur.next;
-            cur.next = pre;
-            pre = cur;
-            cur = next;
+        while (head != null) {
+            ListNode next = head.next;
+            head.next = pre;
+            pre = head;
+            head = next;
         }
-        return new ListNode[]{tail, head};
     }
-
 }

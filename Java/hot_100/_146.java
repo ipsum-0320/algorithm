@@ -5,12 +5,11 @@ import java.util.Map;
 
 public class _146 {
 
-
 }
 
 class DoublyNode {
-    int key;
     int val;
+    int key; // 为了容量不够的时候删除节点。
     DoublyNode pre, next;
 
     public DoublyNode(int key, int val) {
@@ -21,108 +20,80 @@ class DoublyNode {
 
 
 class LRUCache {
-    int capacity;
+    int capacity; // 容量。
+    DoublyNode dummy; // 头结点。
     Map<Integer, DoublyNode> map;
-    DoublyNode dummy;
-    DoublyNode tail;
+
+    DoublyNode tail; // 尾结点，为了容量不足时删除。
 
     public LRUCache(int capacity) {
-        this.map = new HashMap<>();
         this.capacity = capacity;
-        this.dummy = new DoublyNode(-1, -1);
+        this.dummy = new DoublyNode( -1, -1);
+        this.map = new HashMap<>(capacity);
+        tail = null;
     }
 
     public int get(int key) {
-        if (!map.containsKey(key)) {
-            return -1;
-        }
-        DoublyNode node = map.get(key);
-        DoublyNode next = node.next;
-        DoublyNode pre = node.pre;
-        pre.next = next;
-        if (next != null) {
-            next.pre = pre;
-        } else {
-            // 如果 next 是 null，说明原来 node 是尾结点。
-            this.tail = pre;
+        if (!map.containsKey(key)) return -1;
+        // pre node next
+        else {
+            DoublyNode node = map.get(key);
+            DoublyNode pre = node.pre, next = node.next;
+            pre.next = next;
+            if (next != null) next.pre = pre;
+            else tail = pre;
+            // next == null 说明 node 是尾结点。
+
+            DoublyNode head = dummy.next;
+            dummy.next = node;
+            if (head != null) head.pre = node;
+            else tail = node;
+            node.pre = dummy;
+            node.next = head;
+            return map.get(key).val;
         }
 
-        DoublyNode dummyNext = dummy.next;
-        if (dummyNext != null) {
-            dummyNext.pre = node;
-        } else {
-            // 如果 dummyNext 是 null，说明新 node 是尾结点。
-            this.tail = node;
-        }
-        dummy.next = node;
-        node.pre = dummy;
-        node.next = dummyNext;
-
-        return node.val;
     }
 
     public void put(int key, int value) {
-        if (map.containsKey(key)) {
+        if (!map.containsKey(key)) {
+            DoublyNode node = new DoublyNode(key, value);
+            map.put(key, node);
+
+            DoublyNode head = dummy.next;
+            dummy.next = node;
+            if (head != null)
+                head.pre = node;
+            else tail = node;
+            node.pre = dummy;
+            node.next = head;
+
+            if (map.size() > capacity) {
+                // 删除。
+                map.remove(tail.key);
+                DoublyNode tailPre = tail.pre;
+                tail = tailPre;
+                tailPre.next = null;
+            }
+        } else {
             DoublyNode node = map.get(key);
             node.val = value;
-            // 更新 value。
 
-            DoublyNode next = node.next;
-            DoublyNode pre = node.pre;
+            DoublyNode pre = node.pre, next = node.next;
             pre.next = next;
-            if (next != null) {
+            if (next != null)
                 next.pre = pre;
-            } else {
-                this.tail = pre;
-            }
+            else tail = pre;
 
-            DoublyNode dummyNext = dummy.next;
-            if (dummyNext != null) {
-                dummyNext.pre = node;
-            } else {
-                this.tail = node;
-            }
 
+            DoublyNode head = dummy.next;
             dummy.next = node;
+            if (head != null)
+                head.pre = node;
+            else tail = node;
             node.pre = dummy;
-            node.next = dummyNext;
-
-            return;
+            node.next = head;
         }
-        DoublyNode newNode = new DoublyNode(key, value);
-        map.put(key, newNode);
-        if (map.size() > capacity) {
-            // 删除链表的尾结点。
-            int tailKey = this.tail.key;
-            map.remove(tailKey);
-            DoublyNode pre = this.tail.pre;
-            pre.next = null;
-            this.tail = pre;
-
-            DoublyNode dummyNext = dummy.next;
-            if (dummyNext != null) {
-                dummyNext.pre = newNode;
-            } else {
-                this.tail = newNode;
-            }
-
-            dummy.next = newNode;
-            newNode.pre = dummy;
-            newNode.next = dummyNext;
-
-            return;
-        }
-        DoublyNode dummyNext = dummy.next;
-        if (dummyNext != null) {
-            dummyNext.pre = newNode;
-        } else {
-            this.tail = newNode;
-        }
-
-        dummy.next = newNode;
-        newNode.pre = dummy;
-        newNode.next = dummyNext;
-
     }
 }
 

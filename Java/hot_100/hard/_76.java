@@ -1,13 +1,9 @@
-package Java.hot_100;
+package Java.hot_100.hard;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class _76 {
-
-    public static void main(String[] args) {
-        minWindow("ab", "b");
-    }
 
     public static String minWindow(String s, String t) {
         int match = 0;

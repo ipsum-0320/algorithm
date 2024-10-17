@@ -46,4 +46,44 @@ public class _hot_100 {
         return map.values().stream().collect(Collectors.toList());
         // stream API 的使用。
     }
+
+    public int longestConsecutive(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            set.add(nums[i]);
+        }
+        int res = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (set.contains(nums[i] - 1)) continue;
+            int num = nums[i];
+            while (set.contains(num)) {
+                num++;
+            }
+            res = Math.max(res, num - nums[i]);
+        }
+        return res;
+    }
+
+    public void moveZeroes(int[] nums) {
+        int p = 0;
+        while (nums[p] != 0) {
+            p++;
+            if (p == nums.length) return;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != 0) {
+                if (i > p) {
+                    nums[p] = nums[i];
+                    p++;
+                    if (p == nums.length) break;
+                }
+            }
+        }
+
+        while (p < nums.length) {
+            nums[p] = 0;
+            p++;
+        }
+    }
 }

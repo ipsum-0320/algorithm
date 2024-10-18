@@ -1,6 +1,7 @@
 package Java.second;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -85,5 +86,44 @@ public class _hot_100 {
             nums[p] = 0;
             p++;
         }
+    }
+
+    public int maxArea(int[] height) {
+        int left = 0, right = height.length - 1;
+        int res = 0;
+        while (left < right) {
+            res = Math.max(res, Math.min(height[left], height[right]) * (right - left));
+            if (height[left] < height[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return res;
+    }
+
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (i != 0 && nums[i] == nums[i - 1]) continue;
+            int target = -nums[i];
+            for (int j = i + 1; j < nums.length; j++) {
+                if (j != i + 1 && nums[j] == nums[j - 1]) continue;
+                int k = nums.length - 1;
+                while (j < k && nums[j] + nums[k] > target) {
+                    k--;
+                }
+                if (j == k) break;
+                if (nums[j] + nums[k] == target) {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(nums[i]);
+                    list.add(nums[j]);
+                    list.add(nums[k]);
+                    res.add(list);
+                }
+            }
+        }
+        return res;
     }
 }

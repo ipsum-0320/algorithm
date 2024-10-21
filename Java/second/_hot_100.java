@@ -126,4 +126,95 @@ public class _hot_100 {
         }
         return res;
     }
+
+    public int trap(int[] height) {
+        int maxLeftHeight = height[0], maxRightHeight = height[height.length - 1];
+        int res = 0;
+        int left  = 1, right = height.length - 2;
+
+        while (left <= right) {
+            // left == right 的情况也需要考虑，不然会遗漏一个格子。
+            maxLeftHeight = Math.max(maxLeftHeight, height[left]);
+            maxRightHeight = Math.max(maxRightHeight, height[right]);
+
+            if (maxLeftHeight < maxRightHeight) {
+                res += Math.max(maxLeftHeight - height[left], 0);
+                left++;
+            } else {
+                res += Math.max(maxRightHeight - height[right], 0);
+                right--;
+            }
+        }
+        return res;
+    }
+
+    public int lengthOfLongestSubstring(String s) {
+        Set<Character> set = new HashSet<>();
+        int left = 0, right = 0;
+        int res = 0;
+
+        for (right = 0; right < s.length(); right++) {
+            Character c = s.charAt(right);
+            if (!set.contains(c)) {
+                set.add(c);
+                res = Math.max(res, set.size());
+            } else {
+                while (set.contains(c)) {
+                    set.remove(s.charAt(left));
+                    left++;
+                }
+                set.add(c);
+            }
+        }
+        return res;
+    }
+
+    public List<Integer> findAnagrams(String s, String p) {
+        List<Integer> res = new ArrayList<>();
+        if (s.length() < p.length()) return res;
+
+        int[] need = new int[26];
+        for (int i = 0; i < p.length(); i++) {
+            need[p.charAt(i) - 'a']++;
+        }
+        int[] window = new int[26];
+        for (int i = 0; i < p.length() - 1; i++) {
+            window[s.charAt(i) - 'a']++;
+        }
+        // 模拟滑动窗口的过程，需要深刻理解。
+        for (int i = 0, j = p.length() - 1; j < s.length(); i++, j++) {
+            int start = s.charAt(i) - 'a';
+            int end = s.charAt(j) - 'a';
+
+            window[end]++;
+            if (Arrays.equals(need, window)) {
+                res.add(i);
+            }
+            window[start]--;
+        }
+
+        return res;
+    }
+
+    public int subarraySum(int[] nums, int k) {
+        // 使用前缀和去完成。
+        Map<Integer, Integer> map = new HashMap<>();
+        int preSum = 0, res = 0;
+        map.put(preSum, 1);
+        for (int i = 0 ; i < nums.length; i++) {
+            preSum += nums[i];
+            res += map.getOrDefault(preSum - k, 0);
+            /* 先计算 res，再更新 map。
+             * 这么做为了保证子数组的定义：子数组是数组中元素的连续**非空**序列。
+             * 如果先更新 map，再计算 res，就会出现子数组为空，比如 k == 0 时。
+             * */
+            map.put(preSum, map.getOrDefault(preSum, 0) + 1);
+        }
+        return res;
+    }
+
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        return null;
+    }
+
 }

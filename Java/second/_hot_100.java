@@ -1,12 +1,6 @@
 package Java.second;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class _hot_100 {
@@ -214,7 +208,24 @@ public class _hot_100 {
     }
 
     public int[] maxSlidingWindow(int[] nums, int k) {
-        return null;
+        // 使用最大堆来完成。
+        PriorityQueue<List<Integer>> queue = new PriorityQueue<>((a, b) -> b.get(0) - a.get(0));
+        for (int i = 0; i < k; i++) {
+            queue.add(Arrays.asList(nums[i], i));
+        }
+        int[] res = new int[nums.length - k + 1];
+        int left = 0;
+        for (int i = k; i < nums.length; i++, left++) {
+            res[i - k] = queue.peek().get(0);
+            while (!queue.isEmpty() && queue.peek().get(1) <= left) {
+                // k 可能为 1，因此这里需要判断 queue 是否为空。
+                queue.poll();
+            }
+            queue.add(Arrays.asList(nums[i], i));
+        }
+        res[nums.length - k] = queue.peek().get(0);
+        // 最后一个元素的处理，res 的最后一个元素是 res[nums.length - k]，
+        // 但是循环中的 i 最大取到 nums.length - 1。
+        return res;
     }
-
 }

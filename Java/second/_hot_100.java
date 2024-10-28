@@ -228,4 +228,53 @@ public class _hot_100 {
         // 但是循环中的 i 最大取到 nums.length - 1。
         return res;
     }
+
+    public String minWindow(String s, String t) {
+        String res = "";
+
+        // 使用 Map，而不是数组来存储，因为字符串大小写不确定。
+
+        // Map + matches
+        Map<Character, Integer> target = new HashMap<>();
+
+        for (int i = 0; i < t.length(); i++) {
+            target.put(t.charAt(i), target.getOrDefault(t.charAt(i), 0) + 1);
+        }
+
+        int matches = 0;
+
+        int left = 0;
+        for (int i = 0; i < s.length(); i++) {
+            Character character = s.charAt(i);
+            if (target.containsKey(character)) {
+                target.put(character, target.get(character) - 1);
+                if (target.get(character) == 0) {
+                    matches++;
+                }
+                if (matches == target.keySet().size()) {
+                    while (left <= i) {
+                        // 注意这里的等号。
+                        if (res.isEmpty()) res = s.substring(left, i + 1);
+                        else if (i - left + 1 < res.length()) {
+                            res = s.substring(left, i + 1);
+                        }
+                        Character otherCharacter = s.charAt(left);
+                        if (!target.containsKey(s.charAt(left))) {
+                            left++;
+                            continue;
+                        }
+                        target.put(otherCharacter, target.get(otherCharacter) + 1);
+                        if (target.get(otherCharacter) > 0) {
+                            matches--;
+                            left++;
+                            break;
+                        }
+                        left++;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
 }

@@ -277,4 +277,16 @@ public class _hot_100 {
         return res;
     }
 
+    public int maxSubArray(int[] nums) {
+        // 使用前缀和/动态规划【以最后一步做就行】来完成。
+        int preSum = nums[0], preSumMin = Math.min(0, nums[0]), res = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            preSum += nums[i];
+            res = Math.max(res, preSum - preSumMin);
+            preSumMin = Math.min(preSumMin, preSum);
+        }
+
+        return res;
+    }
+
 }

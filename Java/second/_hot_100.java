@@ -312,4 +312,46 @@ public class _hot_100 {
         return finalRes;
     }
 
+    public void rotate(int[] nums, int k) {
+        // 找规律，使用数组反转的方法。
+        int n = nums.length;
+        k = k % n;
+        rotate_reverse(nums, n - k, n - 1);
+        rotate_reverse(nums, 0, n - k - 1);
+        rotate_reverse(nums, 0, n);
+    }
+
+    public void rotate_reverse(int[] nums, int left, int right) {
+        while (left < right) {
+            int temp = nums[left];
+            nums[left] = nums[right];
+            nums[right] = temp;
+            left++;
+            right--;
+        }
+    }
+
+    public int[] productExceptSelf(int[] nums) {
+        // 前缀乘积。
+        int[] left = new int[nums.length];
+        int[] right = new int[nums.length];
+        left[0] = 1;
+        for (int i = 1; i < nums.length; i++) {
+            left[i] = left[i - 1] * nums[i - 1];
+        }
+
+        right[nums.length - 1] = 1;
+        for (int i = nums.length - 2; i >= 0; i--) {
+            right[i] = right[i + 1] * nums[i + 1];
+        }
+
+        nums[0] = right[0];
+        nums[nums.length - 1] = left[nums.length - 1];
+        for (int i = 1; i < nums.length - 1; i++) {
+            nums[i] = left[i] * right[i];
+        }
+
+        return nums;
+    }
+
 }

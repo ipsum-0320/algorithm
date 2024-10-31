@@ -289,4 +289,27 @@ public class _hot_100 {
         return res;
     }
 
+    public int[][] merge(int[][] intervals) {
+        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+        // 按照左端点进行排序。
+
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < intervals.length; i++) {
+            int left = intervals[i][0], right = intervals[i][1];
+            while (i + 1 < intervals.length && intervals[i + 1][0] <= right) {
+                right = Math.max(right, intervals[i + 1][1]);
+                i++;
+            }
+            res.add(Arrays.asList(left, right));
+        }
+
+        int n = res.size();
+        int[][] finalRes = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            finalRes[i][0] = res.get(i).get(0);
+            finalRes[i][1] = res.get(i).get(1);
+        }
+        return finalRes;
+    }
+
 }

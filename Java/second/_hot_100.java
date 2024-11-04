@@ -354,4 +354,26 @@ public class _hot_100 {
         return nums;
     }
 
+    public int firstMissingPositive(int[] nums) {
+        // 一个事实是，缺失的最小的正整数一定在 [1, n] 之间。
+        int n = nums.length;
+
+        for (int i = 0; i < nums.length; i++) {
+            while (nums[i] >= 1 && nums[i] <= n && nums[nums[i] - 1] != nums[i]) {
+                // if -> while，保证交换过来的数也放在正确位置。
+                int temp = nums[i];
+                nums[i] = nums[nums[i] - 1];
+                nums[temp - 1] = temp;
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (nums[i] != i + 1) {
+                return i + 1;
+            }
+        }
+
+        return n + 1;
+    }
+
 }

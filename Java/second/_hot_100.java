@@ -430,4 +430,38 @@ public class _hot_100 {
         }
     }
 
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> res = new ArrayList<>();
+        int[][] dirs = new int[][]{
+                {0, 1}, {1, 0}, {0, -1}, {-1, 0}
+        };
+        int left = 0, right = matrix[0].length - 1, top = 0, bottom = matrix.length - 1;
+        // 自己记录边界。
+        int allStep = matrix.length * matrix[0].length, curStep = 0;
+        // 自己记录步数。
+        int move = 0, i = 0, j = 0;
+        // 记录移动方向。
+        while (curStep < allStep) {
+            res.add(matrix[i][j]);
+            int newI = i + dirs[move][0], newJ = j + dirs[move][1];
+            if (newI < top) {
+                move = (move + 1) % 4;
+                left++;
+            } else if (newI > bottom) {
+                move = (move + 1) % 4;
+                right--;
+            } else if (newJ < left) {
+                move = (move + 1) % 4;
+                bottom--;
+            } else if (newJ > right) {
+                move = (move + 1) % 4;
+                top++;
+            }
+            curStep++;
+            i += dirs[move][0];
+            j += dirs[move][1];
+        }
+        return res;
+    }
+
 }

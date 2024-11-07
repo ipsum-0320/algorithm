@@ -464,4 +464,40 @@ public class _hot_100 {
         return res;
     }
 
+    public void rotate(int[][] matrix) {
+        // 先上下翻转，然后沿对角线翻转。
+        int mid = matrix.length / 2;
+        int n = matrix.length;
+        // 上下翻转。
+        for (int i = 0; i < mid; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[n - i - 1][j];
+                matrix[n - i - 1][j] = temp;
+            }
+        }
+        // 对角线翻转。
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = temp;
+            }
+        }
+    }
+
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int row = matrix.length - 1, col = 0;
+        while (row >= 0 && col < matrix[0].length) {
+            if (matrix[row][col] == target) {
+                return true;
+            } else if (matrix[row][col] < target) {
+                col++;
+            } else {
+                row--;
+            }
+        }
+        return false;
+    }
+
 }

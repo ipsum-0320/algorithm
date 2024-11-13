@@ -1,9 +1,9 @@
-package Java.second;
+package Java.repeat;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class _hot_100 {
+public class _hot_100_second {
     public int[] twoSum(int[] nums, int target) {
         Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
@@ -500,4 +500,31 @@ public class _hot_100 {
         return false;
     }
 
+    class ListNode {
+        int val;
+        ListNode next;
+        ListNode random;
+
+        public ListNode(int val) {
+            this.val = val;
+            this.next = null;
+            this.random = null;
+        }
+    }
+
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode curA = headA, curB = headB;
+        while (curB != curA) {
+            if (curA == null) curA = headB;
+                // 一次只能走一步，因此要有 else。
+            else curA = curA.next;
+            if (curB == null) curB = headA;
+            else curB = curB.next;
+        }
+        return curB;
+    }
+
 }
+
+
+

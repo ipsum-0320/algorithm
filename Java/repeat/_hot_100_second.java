@@ -524,6 +524,21 @@ public class _hot_100_second {
         return curB;
     }
 
+    public ListNode reverseList(ListNode head) {
+        ListNode pre = new ListNode(-1), cur = head;
+
+        while (cur != null) {
+            ListNode next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+
+        if (head == null) return null;
+        else head.next = null;
+        return pre;
+    }
+
 }
 
 

@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 
 public class _1_10 {
     // 1-560
+    // 1
     public int[] twoSum(int[] nums, int target) {
         Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
@@ -23,6 +24,7 @@ public class _1_10 {
         return null;
     }
 
+    // 49
     public List<List<String>> groupAnagrams(String[] strs) {
         Map<String, List<String>> map = new HashMap<>();
         for (String str : strs) {
@@ -41,6 +43,7 @@ public class _1_10 {
         return map.values().stream().collect(Collectors.toList());
     }
 
+    // 49
     public List<List<String>> groupAnagrams_2(String[] strs) {
         Map<String, List<String>> map = new HashMap<>();
         for (String str : strs) {
@@ -65,6 +68,7 @@ public class _1_10 {
         return map.values().stream().collect(Collectors.toList());
     }
 
+    // 28
     public int longestConsecutive(int[] nums) {
         Set<Integer> set = new HashSet<>();
         int res = 0;
@@ -82,8 +86,9 @@ public class _1_10 {
         return res;
     }
 
+    // 283
     public void moveZeroes(int[] nums) {
-        // 单指针，非零压缩前移，最后补零。
+        // 双指针，非零压缩前移，最后补零。
         int slow = 0;
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] != 0) {
@@ -97,6 +102,7 @@ public class _1_10 {
         }
     }
 
+    // 11
     public int maxArea(int[] height) {
         // 双指针完成。
         int left = 0, right = height.length - 1;
@@ -112,6 +118,7 @@ public class _1_10 {
         return res;
     }
 
+    // 15
     public List<List<Integer>> threeSum(int[] nums) {
         Arrays.sort(nums);
         List<List<Integer>> res = new ArrayList<>();
@@ -131,6 +138,7 @@ public class _1_10 {
         return res;
     }
 
+    // 42
     public int trap(int[] height) {
         // 计算洼地的水。
         // O(1) 的做法就是每次总能确定左右两边其中一个桶能容纳多少水。
@@ -162,6 +170,7 @@ public class _1_10 {
         return res;
     }
 
+    // 3
     public int lengthOfLongestSubstring(String s) {
         // 滑动窗口，从字符集合的角度去考虑问题。
         Set<Character> set = new HashSet<>();
@@ -178,6 +187,7 @@ public class _1_10 {
         return res;
     }
 
+    // 438
     public List<Integer> findAnagrams(String s, String p) {
         // 记录每个字母出现的次数，然后使用 `Arrays.equals` 进行比较。
         int[] target = new int[26];
@@ -187,7 +197,7 @@ public class _1_10 {
 
         int subSize = p.length();
         List<Integer> res = new ArrayList<>();
-        for (int i = 0; i < s.length() - subSize; i++) {
+        for (int i = 0; i <= s.length() - subSize; i++) {
             if (p.indexOf(s.charAt(i)) == -1) continue;
             int[] tmp = new int[26];
             for (int j = 0; j < p.length(); j++) {
@@ -200,6 +210,7 @@ public class _1_10 {
         return res;
     }
 
+    // 560
     public int subarraySum(int[] nums, int k) {
         // 前缀和，哈希表记录前缀和出现的次数。
         Map<Integer, Integer> map = new HashMap<>();

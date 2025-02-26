@@ -8,7 +8,7 @@ public class _41 {
 
         for (int i = 0; i < n; i++) {
             // 满足在指定范围内、并且没有放在正确的位置上，才交换，因为要将下标为 i 的元素
-            // 放在下标为 nums[i] - 1 的位置上，因此需要确保 nums[i] != nums[nums[i] - 1]]，防止死循环。
+            // 放在下标为 nums[i] - 1 的位置上，因此需要确保 nums[i] != nums[nums[i] - 1]]。
             while (nums[i] >= 1 && nums[i] <= n && nums[i] != nums[nums[i] - 1]) {
                 // 交换 nums[i] 和 nums[nums[i] - 1] 的位置。
                 // 为了保证交换过来的数也放在正确位置，因此继续循环。

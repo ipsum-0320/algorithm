@@ -108,6 +108,153 @@ public class _21_30 {
     }
 
     // 142
+    public ListNode detectCycle(ListNode head) {
+        ListNode pA = head, pB = head;
+        while (pA != null) {
+            pA = pA.next;
+            pB = pB.next;
+            if (pA != null) pA = pA.next;
+            if (pA == pB) break;
+        }
+        if (pA == null) return null;
+        ListNode pC = head;
+        while (pC != pB) {
+            pC = pC.next;
+            pB = pB.next;
+        }
+        return pC;
+    }
 
+    // 21
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode dummy = new ListNode(-1), pre = dummy;
+        while (list1 != null && list2 != null) {
+            if (list1.val < list2.val) {
+                pre.next = list1;
+                pre = list1;
+                list1 = list1.next;
+            } else {
+                pre.next = list2;
+                pre = list2;
+                list2 = list2.next;
+            }
+        }
 
+        if (list1 != null) pre.next = list1;
+        if (list2 != null) pre.next = list2;
+
+        return dummy.next;
+    }
+
+    // 2
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode dummy = new ListNode(-1), pre = dummy;
+        int delta = 0;
+        while (l1 != null || l2 != null) {
+            int res = delta;
+            if (l1 != null) {
+                res += l1.val;
+                l1 = l1.next;
+            }
+            if (l2 != null) {
+                res += l2.val;
+                l2 = l2.next;
+            }
+            delta = res >= 10 ? 1 : 0;
+            res = res % 10;
+            pre.next = new ListNode(res);
+            pre = pre.next;
+        }
+        if (delta == 1) {
+            pre.next = new ListNode(delta);
+        }
+        return dummy.next;
+    }
+
+    // 2
+    public ListNode addTwoNumbers_2(ListNode l1, ListNode l2) {
+        ListNode p1 = l1, p2 = l2;
+        int L1 = 0, L2 = 0;
+        while (p1 != null) {
+            L1++;
+            p1 = p1.next;
+        }
+        while (p2 != null) {
+            L2++;
+            p2 = p2.next;
+        }
+
+        if (L2 >= L1) {
+            ListNode head = l2, pre = null;
+            int delta = 0;
+            while (l2 != null) {
+                l2.val = l2.val + delta;
+                if (l1 != null) {
+                    l2.val = l2.val + l1.val;
+                    l1 = l1.next;
+                }
+                if (l2.val >= 10) {
+                    delta = 1;
+                    l2.val = l2.val % 10;
+                } else delta = 0;
+                pre = l2;
+                l2 = l2.next;
+            }
+            if (delta == 1) pre.next = new ListNode(delta);
+            return head;
+        }
+
+        ListNode head = l1, pre = null;
+        int delta = 0;
+        while (l1 != null) {
+            l1.val = l1.val + delta;
+            if (l2 != null) {
+                l1.val = l1.val + l2.val;
+                l2 = l2.next;
+            }
+            if (l1.val >= 10) {
+                delta = 1;
+                l1.val = l1.val % 10;
+            } else delta = 0;
+            pre = l1;
+            l1 = l1.next;
+        }
+        if (delta == 1) pre.next = new ListNode(delta);
+        return head;
+    }
+
+    // 19
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(-1, head), fast = head, slow = head, pre = dummy;
+        while (n != 0) {
+            fast = fast.next;
+            n--;
+        }
+        while (fast != null) {
+            fast = fast.next;
+            slow = slow.next;
+            pre = pre.next;
+        }
+        pre.next = slow.next;
+        slow.next = null;
+        return dummy.next;
+    }
+
+    // 24
+    public ListNode swapPairs(ListNode head) {
+        if (head == null) return null;
+        ListNode dummy = new ListNode(-1, head), pre = dummy;
+        ListNode first = head, second = head.next;
+        while (first != null && second != null) {
+            pre.next = second;
+            ListNode after = second.next;
+            second.next = first;
+            first.next = after;
+            pre = first;
+            // 记得更新一下 pre。
+            first = after;
+            if (first != null) second = after.next;
+        }
+        return dummy.next;
+    }
 }

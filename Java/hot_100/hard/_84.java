@@ -14,7 +14,7 @@ public class _84 {
         int[] left = new int[n];
         // 左边第一个 < heights[i] 的位置。
         int[] right = new int[n];
-        // 右边第一个 > heights[i] 的位置。
+        // 右边第一个 < heights[i] 的位置。
 
         left[0] = -1;
         for (int i = 1; i < n; i++) {

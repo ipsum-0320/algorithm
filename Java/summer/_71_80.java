@@ -6,9 +6,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.PriorityQueue;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 public class _71_80 {
     // 394-763
@@ -112,7 +116,108 @@ public class _71_80 {
     // 215
     public int findKthLargest(int[] nums, int k) {
         // 直接使用堆来完成。
+        // 核心代码就是堆化代码。
+        buildHeap(nums);
+        int size = nums.length;
+        for (int i = 1; i < k; i++) {
+            nums[0] = nums[size - 1];
+            size--;
+            maxHeapify(nums, 0, size);
+        }
+        return nums[0];
+    }
+    public void buildHeap(int[] nums) {
+        // 对 nums 做堆化，堆化应该是子弟向上的，而不是自顶向下（防止回溯）。
+        for (int i = (nums.length - 1) / 2; i >= 0; i--) {
+            maxHeapify(nums, i, nums.length);
+        }
 
+    }
+    public void maxHeapify(int[] nums, int i, int size) {
+        // nums 就是堆容器，i 则是堆的根节点，size 则是堆的容器。
+        int left = 2 * i + 1, right = 2 * i + 2;
+        int largest = i;
+        // 最大堆。
+        if (left < size && nums[left] > nums[largest]) {
+            // 必须是两个 if，选出最大的来，不能加 else。
+            largest = left;
+        }
+        if (right < size && nums[right] > nums[largest]) {
+            largest = right;
+        }
+        if (largest != i) {
+            // 交换两者的取值。
+            int tmp = nums[largest];
+            nums[largest] = nums[i];
+            nums[i] = tmp;
+            // largest 上的数值做了更新，对子树做堆化。
+            maxHeapify(nums, largest, size);
+        }
+    }
+
+    // 347
+    public int[] topKFrequent(int[] nums, int k) {
+        // 前 k 个高频元素。
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
+        }
+        PriorityQueue<List<Integer>> heap = new PriorityQueue<>((a, b) -> b.get(1) - a.get(1));
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            heap.add(List.of(entry.getKey(), entry.getValue()));
+        }
+
+        int[] res = new int[k];
+        for (int i = 0; i < k; i++) {
+            res[i] = heap.poll().get(0);
+        }
+        return res;
+    }
+
+    // 295
+    class MedianFinder {
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);
+        int count = 0;
+
+        public MedianFinder() {
+            // 最大堆（存储较小的那一段）和最小堆（存储较大的那一段）相配合。
+            // 中位数会暴露在最大堆和最小堆的堆顶。
+        }
+
+        public void addNum(int num) {
+            if (maxHeap.isEmpty()) maxHeap.add(num);
+            else if (minHeap.isEmpty()) {
+                if (num >= maxHeap.peek()) minHeap.add(num);
+                else {
+                    minHeap.add(maxHeap.poll());
+                    maxHeap.add(num);
+                }
+            } else {
+                if (this.count % 2 == 0) {
+                    // 想办法将 maxHeap 多一个。
+                    if (num <= maxHeap.peek()) maxHeap.add(num);
+                    else {
+                        maxHeap.add(minHeap.poll());
+                        minHeap.add(num);
+                    }
+                } else {
+                    // 如果是奇数，想办法让 minHeap 多一个。
+                    if (num > minHeap.peek()) minHeap.add(num);
+                    else {
+                        minHeap.add(maxHeap.poll());
+                        maxHeap.add(num);
+                    }
+                }
+            }
+            this.count++;
+        }
+
+        public double findMedian() {
+            // 定义如果是奇数，中位数放在最大堆，如果是偶数，就二者相加 / 2。
+            if (this.count % 2 == 1) return this.maxHeap.peek();
+            return Math.round((this.maxHeap.peek() + this.minHeap.peek()) / 2.0);
+        }
     }
 
 }

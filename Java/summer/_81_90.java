@@ -1,7 +1,6 @@
 package Java.summer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -52,17 +51,21 @@ public class _81_90 {
     // 279
     public int numSquares(int n) {
         int[] dp = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            dp[i] = Integer.MAX_VALUE;
+        }
         dp[1] = 1;
+        dp[0] = 0;
         // dp[0] 不考虑。
         for (int i = 2; i <= n; i++) {
             for (int j = 1; j * j <= i; j++) {
-                dp[i] =
+                dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
             }
-
         }
-
-        return -1;
+        return dp[n];
     }
+
+    // 322
 }
 
 // 饿了么。

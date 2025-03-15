@@ -1,7 +1,5 @@
 package MySQL;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 // 注意类名必须为 Main, 不要有任何 package xxx 信息
@@ -9,49 +7,34 @@ public class Main {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         // 注意 hasNext 和 hasNextLine 的区别
-        int n = in.nextInt();
-
-        int[] arr = new int[n + 1];
-        boolean[] isEven = new boolean[n + 1];
-
-        for (int i = 1; i <= n; i++) {
-            arr[i] = in.nextInt();
-            isEven[i] = (arr[i] % 2 == 0);
-        }
-
-        List<List<Integer>> nei = new ArrayList<>();
-        for (int i = 0; i <= n; i++) {
-            nei.add(new ArrayList<>());
-        }
-
-        for (int i = 0; i < n - 1; i++) {
-            int u = in.nextInt();
-            int v = in.nextInt();
-            nei.get(u).add(v);
-            nei.get(v).add(u);
-        }
-
-        boolean[] visited = new boolean[n + 1];
-        long res = 0;
-        for (int i = 1; i <= n; i++) {
-            if (isEven[i] && !visited[i]) {
-                int count = dfs(i, visited, nei, isEven);
-                res += ((long) count * (count + 1)) / 2;
-            }
-        }
-
-        System.out.println(res);
-
+        long l1 = in.nextInt();
+        long r1 = in.nextInt();
+        long l2 = in.nextInt();
+        long r2 = in.nextInt();
+        long sum1 = helper(r1, r2) - helper(r1, l2 - 1);
+        long sum2 = helper(l1 - 1, r2) - helper(l1 - 1, l2 - 1);
+        System.out.println(sum1 - sum2);
     }
 
-    private static int dfs(int node, boolean[] visited, List<List<Integer>> nei, boolean[] even) {
-        visited[node] = true;
-        int count = 1;
-        for (int n : nei.get(node)) {
-            if (even[n] && !visited[n]) {
-                count += dfs(n, visited, nei, even);
-            }
+    public static long helper(long prefix, long suffix) {
+        if (prefix == 0) {
+            return 0;
         }
-        return count;
+        if (suffix == 0) {
+            return 0;
+        }
+        long finalRes = 0;
+        for (long i = 1; i <= suffix; ) {
+            long bus = prefix / i;
+            if (bus != 0) {
+                long preBus = prefix / bus;
+                if (preBus > suffix)
+                    preBus = suffix;
+                finalRes += bus * (preBus - i + 1);
+                i = preBus + 1;
+            } else break;
+        }
+
+        return finalRes;
     }
 }

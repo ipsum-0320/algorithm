@@ -143,4 +143,33 @@ public class _90_100 {
         }
     }
 
+    // 75 - 双指针解法
+    public void sortColors(int[] nums) {
+        int left = 0, right = 0;
+        while (right < nums.length) {
+            while (left < nums.length && nums[left] == 0) left++;
+            // nums[left] 第一个不为 0 的。
+            while (right < nums.length && nums[right] != 0 || right < left) right++;
+            // nums[right] 是第一个为 0 的。
+            if (left < nums.length && right < nums.length) {
+                nums[right] = nums[left];
+                nums[left] = 0;
+            }
+        }
+        // left 之前都是 0。
+        int bound = left;
+        left = nums.length - 1;
+        right = nums.length - 1;
+        while (left >= bound) {
+            while (right >= 0 && nums[right] == 2) right--;
+            // nums[right] 第一个不为 2 的。
+            while (left >= 0 && nums[left] != 2 || left > right) left--;
+            // nums[left] 是第一个为 2 的。
+            if (right >= 0 && left >= 0) {
+                nums[left] = nums[right];
+                nums[right] = 2;
+            }
+        }
+    }
+
 }
